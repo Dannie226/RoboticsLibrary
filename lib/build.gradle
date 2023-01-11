@@ -19,6 +19,10 @@ repositories {
         setUrl("https://frcmaven.wpi.edu/artifactory/release")    }
 }
 
+jar {
+    from sourceSets.main.allSource
+}
+
 dependencies {
     // Use JUnit test framework.
     testImplementation 'junit:junit:4.13.2'
