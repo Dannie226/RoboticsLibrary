@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.Random;
 
 import org.junit.Before;
-import org.junit.ComparisonFailure;
 import org.junit.Test;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -91,7 +90,7 @@ public class SwerveModuleBaseTest {
 
             // Make sure the module didn't move more than 90 degrees
             assertTrue(Math.abs(optimizedDegrees - currentDegrees) < 90);
-            // Make sure that the optimized is the same relative position as current
+            // Make sure that the optimized is the same relative position as set point
             assertEquals(euclideanModulo(setDegrees, 360), euclideanModulo(optimizedDegrees + 90 * (optimized.speedMetersPerSecond - 1), 360), 1e-8);
         }
     }
