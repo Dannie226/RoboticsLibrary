@@ -2,12 +2,12 @@ package frc.team4272.swerve.utils;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.team4272.globals.MathUtils;
 
 public abstract class SwerveModuleBase {
-    public abstract SwerveModuleState getState();
-
+    public abstract SwerveModulePosition getPosition();
     public abstract void goToState(SwerveModuleState state);
 
     public static SwerveModuleState optimize(SwerveModuleState desiredState, Rotation2d currentHeading) {

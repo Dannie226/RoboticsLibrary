@@ -3,7 +3,7 @@ package frc.team4272.swerve.utils;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.team4272.globals.Gyroscope;
@@ -12,7 +12,6 @@ import frc.team4272.swerve.utils.SwerveModuleBase.PositionedSwerveModule;
 public class SwerveDriveBase extends SubsystemBase {
     protected final Gyroscope gyroscope;
     protected final SwerveDriveKinematics kinematics;
-    protected final SwerveDriveOdometry odometry;
     protected final SwerveModuleBase[] modules;
 
     public SwerveDriveBase(Gyroscope gyroscope, PositionedSwerveModule... modules) {
@@ -28,7 +27,6 @@ public class SwerveDriveBase extends SubsystemBase {
         }
 
         this.kinematics = new SwerveDriveKinematics(positions);
-        this.odometry = new SwerveDriveOdometry(this.kinematics, gyroscope.getRotation());
         this.modules = swerveModules;
     }
 
@@ -46,10 +44,6 @@ public class SwerveDriveBase extends SubsystemBase {
         setStates(states);
     }
 
-    public void updateOdometry() {
-        odometry.update(gyroscope.getRotation(), getStates());
-    }
-
     public Gyroscope getGyroscope() {
         return gyroscope;
     }
@@ -62,13 +56,13 @@ public class SwerveDriveBase extends SubsystemBase {
         }
     }
 
-    public SwerveModuleState[] getStates() {
-        SwerveModuleState[] states = new SwerveModuleState[modules.length];
-        
+    public SwerveModulePosition[] getPositions() {
+        SwerveModulePosition[] positions = new SwerveModulePosition[modules.length];
+
         for(int i = 0; i < modules.length; i++) {
-            states[i] = modules[i].getState();
+            positions[i] = modules[i].getPosition();
         }
 
-        return states;
+        return positions;
     }
 }

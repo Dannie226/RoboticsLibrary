@@ -37,18 +37,6 @@ public abstract class State<T extends Subsystem> implements Sendable, Command {
     }
 
     /**
-     * Decorates this Command with a name. Is an inline function for
-     * #setName(String);
-     *
-     * @param name name
-     * @return the decorated Command
-     */
-    public State<T> withName(String name) {
-        this.setName(name);
-        return this;
-    }
-
-    /**
      * Gets the subsystem name of this Command.
      *
      * @return Subsystem name
