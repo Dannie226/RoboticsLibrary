@@ -14,6 +14,11 @@ public class SwerveDriveBase extends SubsystemBase {
     protected final SwerveDriveKinematics kinematics;
     protected final SwerveModuleBase[] modules;
 
+    /**
+     * 
+     * @param gyroscope Gyroscope for field relative driving
+     * @param modules All the modules on your robot and their positions for kinematics
+     */
     public SwerveDriveBase(Gyroscope gyroscope, PositionedSwerveModule... modules) {
         this.gyroscope = gyroscope;
 
@@ -30,6 +35,12 @@ public class SwerveDriveBase extends SubsystemBase {
         this.modules = swerveModules;
     }
 
+    /**
+     * Drive in robot oriented
+     * @param xSpeed
+     * @param ySpeed
+     * @param thetaSpeed
+     */
     public void drive(double xSpeed, double ySpeed, double thetaSpeed) {
         ChassisSpeeds speeds = new ChassisSpeeds(xSpeed, ySpeed, thetaSpeed);
         SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
@@ -37,6 +48,12 @@ public class SwerveDriveBase extends SubsystemBase {
         setStates(states);
     }
 
+    /**
+     * Drive in field oriented
+     * @param xSpeed
+     * @param ySpeed
+     * @param thetaSpeed
+     */
     public void driveFieldOriented(double xSpeed, double ySpeed, double thetaSpeed) {
         ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, thetaSpeed, gyroscope.getRotation());
         SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
@@ -48,6 +65,11 @@ public class SwerveDriveBase extends SubsystemBase {
         return gyroscope;
     }
 
+    /**
+     * Set the states of all the modules
+     * @implNote This should be overwritten with a more optimized version when subclassed, but technically, its not necessary
+     * @param states
+     */
     public void setStates(SwerveModuleState... states) {
         if(states.length != modules.length) throw new IllegalArgumentException("Number of states provided doesnt match number of modules");
 
@@ -56,6 +78,11 @@ public class SwerveDriveBase extends SubsystemBase {
         }
     }
 
+    /**
+     * Get the positions of all the modules. This is never used internally, but if desired, it can be used for odometry
+     * @implNote If this is going to be used, it should be replaced with a more optimized version when subclassed
+     * @return
+     */
     public SwerveModulePosition[] getPositions() {
         SwerveModulePosition[] positions = new SwerveModulePosition[modules.length];
 

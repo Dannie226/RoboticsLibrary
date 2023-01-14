@@ -10,6 +10,16 @@ public abstract class SwerveModuleBase {
     public abstract SwerveModulePosition getPosition();
     public abstract void goToState(SwerveModuleState state);
 
+    /**
+     * An optimize function that automatically handles all continuity logic.
+     * The modules should never have to rotate more than 90 degrees to get to any
+     * rotation. This optimize function automatically handles the continuity logic
+     * so you can use the built in PID controller on whatever motor you happen to be
+     * using.
+     * @param desiredState
+     * @param currentHeading
+     * @return
+     */
     public static SwerveModuleState optimize(SwerveModuleState desiredState, Rotation2d currentHeading) {
         double inverted = 1.0;
 
@@ -48,6 +58,10 @@ public abstract class SwerveModuleBase {
         public PositionedSwerveModule(SwerveModuleBase module, Translation2d position) {
             this.module = module;
             this.position = position;
+        }
+
+        public PositionedSwerveModule(SwerveModuleBase module, double x, double y) {
+            this(module, new Translation2d(x, y));
         }
 
         public SwerveModuleBase getModule() {

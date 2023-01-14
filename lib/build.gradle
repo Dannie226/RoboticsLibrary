@@ -21,6 +21,7 @@ repositories {
 
 jar {
     from sourceSets.main.allSource
+    from javadoc.destinationDir
 }
 
 dependencies {
