@@ -28,12 +28,6 @@ dependencies {
     // Use JUnit test framework.
     testImplementation 'junit:junit:4.13.2'
 
-    // This dependency is exported to consumers, that is to say found on their compile classpath.
-    api 'org.apache.commons:commons-math3:3.6.1'
-
-    // This dependency is used internally, and not exposed to consumers on their own compile classpath.
-    implementation 'com.google.guava:guava:31.0.1-jre'
-
     implementation group:'edu.wpi.first.wpilibNewCommands', name:'wpilibNewCommands-java', version:'2023.2.1'
     implementation group:'edu.wpi.first.wpimath', name:'wpimath-java', version:'2023.2.1'
     implementation group:'edu.wpi.first.wpiutil', name:'wpiutil-java', version:'2023.2.1'
