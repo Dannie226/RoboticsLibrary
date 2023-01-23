@@ -14,6 +14,10 @@ public class SwerveDriveBase extends SubsystemBase {
     protected final SwerveDriveKinematics kinematics;
     protected final SwerveModuleBase[] modules;
 
+    private double maxTranslational;
+    private double maxRotational;
+    private double maxTotal;
+
     /**
      * 
      * @param gyroscope Gyroscope for field relative driving
@@ -35,6 +39,35 @@ public class SwerveDriveBase extends SubsystemBase {
         this.modules = swerveModules;
     }
 
+    public SwerveDriveBase setMaxSpeeds(double translationalSpeed, double rotationalSpeed, double moduleSpeed) {
+        maxTranslational = translationalSpeed;
+        maxRotational = rotationalSpeed;
+        maxTotal = moduleSpeed;
+        return this;
+    }
+
+    public SwerveDriveBase setMaxSpeeds(double moduleSpeed) {
+        maxTranslational = 0.0;
+        maxRotational = 0.0;
+        maxTotal = moduleSpeed;
+        return this;
+    }
+
+    public void drive(ChassisSpeeds speeds) {
+        SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
+        if(maxTotal == 0) {
+            throw new IllegalCallerException("Max total must have a value. Call setMaxSpeeds at some point during initialization");
+        }
+
+        if(maxTranslational == 0 && maxRotational == 0) {
+            SwerveDriveKinematics.desaturateWheelSpeeds(states, maxTotal);
+        } else {
+            SwerveDriveKinematics.desaturateWheelSpeeds(states, speeds, maxTotal, maxTranslational, maxRotational);
+        }
+
+        setStates(states);
+    }
+
     /**
      * Drive in robot oriented
      * @param xSpeed
@@ -43,9 +76,7 @@ public class SwerveDriveBase extends SubsystemBase {
      */
     public void drive(double xSpeed, double ySpeed, double thetaSpeed) {
         ChassisSpeeds speeds = new ChassisSpeeds(xSpeed, ySpeed, thetaSpeed);
-        SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
-
-        setStates(states);
+        drive(speeds);
     }
 
     /**
@@ -56,9 +87,7 @@ public class SwerveDriveBase extends SubsystemBase {
      */
     public void driveFieldOriented(double xSpeed, double ySpeed, double thetaSpeed) {
         ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, thetaSpeed, gyroscope.getRotation());
-        SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
-
-        setStates(states);
+        drive(speeds);
     }
 
     public Gyroscope getGyroscope() {
