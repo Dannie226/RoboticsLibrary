@@ -6,6 +6,7 @@ import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
 /**
@@ -84,8 +85,7 @@ public abstract class State<T extends Subsystem> implements Sendable, Command {
                     }
                 });
 
-        // Commented out due to the fact that CommandGroupBase.getGroupedCommands is not visible
-        // builder.addBooleanProperty(
-        //         ".isParented", () -> CommandGroupBase.getGroupedCommands().contains(this), null);
+        builder.addBooleanProperty(
+                ".isParented", () -> CommandScheduler.getInstance().isComposed(this), null);
     }
 }
