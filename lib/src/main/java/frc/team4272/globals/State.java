@@ -87,5 +87,8 @@ public abstract class State<T extends Subsystem> implements Sendable, Command {
 
         builder.addBooleanProperty(
                 ".isParented", () -> CommandScheduler.getInstance().isComposed(this), null);
+        builder.addStringProperty(
+        "interruptBehavior", () -> getInterruptionBehavior().toString(), null);
+        builder.addBooleanProperty("runsWhenDisabled", this::runsWhenDisabled, null);
     }
 }
