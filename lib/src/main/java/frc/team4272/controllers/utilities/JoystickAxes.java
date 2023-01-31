@@ -52,7 +52,7 @@ public class JoystickAxes {
         return controller.getRawAxis(yPort);
     }
 
-    public double getMagnitude() {
+    public double getRawMagnitude() {
         return Math.hypot(getRawX(), getRawY());
     }
 
@@ -63,7 +63,7 @@ public class JoystickAxes {
     public double getDeadzonedX() {
         switch(mode) {
             case kMagnitude: 
-                return deadbandAndPowerScale(getMagnitude(), deadzone, power) * Math.cos(getAngle());
+                return getDeadzonedMagnitude() * Math.cos(getAngle());
 
             case kXAxis:
                 return deadbandAndPowerScale(getRawX(), deadzone, power);
@@ -76,7 +76,7 @@ public class JoystickAxes {
     public double getDeadzonedY() {
         switch(mode) {
             case kMagnitude: 
-                return deadbandAndPowerScale(getMagnitude(), deadzone, power) * Math.sin(getAngle());
+                return getDeadzonedMagnitude() * Math.sin(getAngle());
 
             case kYAxis:
                 return deadbandAndPowerScale(getRawY(), deadzone, power);
@@ -84,5 +84,9 @@ public class JoystickAxes {
             default:
                 return 0;
         }
+    }
+
+    public double getDeadzonedMagnitude() {
+        return deadbandAndPowerScale(getRawMagnitude(), deadzone, power);
     }
 }
