@@ -9,10 +9,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.team4272.globals.Gyroscope;
 import frc.team4272.swerve.utils.SwerveModuleBase.PositionedSwerveModule;
 
-public class SwerveDriveBase extends SubsystemBase {
-    protected final Gyroscope gyroscope;
+public class SwerveDriveBase<G extends Gyroscope, M extends SwerveModuleBase> extends SubsystemBase {
+    protected final G gyroscope;
     protected final SwerveDriveKinematics kinematics;
-    protected final SwerveModuleBase[] modules;
+    protected final M[] modules;
 
     private double maxTranslational;
     private double maxRotational;
@@ -23,14 +23,14 @@ public class SwerveDriveBase extends SubsystemBase {
      * @param gyroscope Gyroscope for field relative driving
      * @param modules All the modules on your robot and their positions for kinematics
      */
-    public SwerveDriveBase(Gyroscope gyroscope, PositionedSwerveModule... modules) {
+    public SwerveDriveBase(G gyroscope, PositionedSwerveModule<M>... modules) {
         this.gyroscope = gyroscope;
 
         Translation2d[] positions = new Translation2d[modules.length];
-        SwerveModuleBase[] swerveModules = new SwerveModuleBase[modules.length];
+        M[] swerveModules = (M[]) new SwerveModuleBase[modules.length];
 
         for(int i = 0; i < modules.length; i++) {
-            PositionedSwerveModule module = modules[i];
+            PositionedSwerveModule<M> module = modules[i];
             positions[i] = module.getPosition();
             swerveModules[i] = module.getModule();
         }
@@ -39,14 +39,14 @@ public class SwerveDriveBase extends SubsystemBase {
         this.modules = swerveModules;
     }
 
-    public SwerveDriveBase setMaxSpeeds(double translationalSpeed, double rotationalSpeed, double moduleSpeed) {
+    public SwerveDriveBase<G,M> setMaxSpeeds(double translationalSpeed, double rotationalSpeed, double moduleSpeed) {
         maxTranslational = translationalSpeed;
         maxRotational = rotationalSpeed;
         maxTotal = moduleSpeed;
         return this;
     }
 
-    public SwerveDriveBase setMaxSpeeds(double moduleSpeed) {
+    public SwerveDriveBase<G,M> setMaxSpeeds(double moduleSpeed) {
         maxTranslational = 0.0;
         maxRotational = 0.0;
         maxTotal = moduleSpeed;
@@ -90,7 +90,7 @@ public class SwerveDriveBase extends SubsystemBase {
         drive(speeds);
     }
 
-    public Gyroscope getGyroscope() {
+    public G getGyroscope() {
         return gyroscope;
     }
 

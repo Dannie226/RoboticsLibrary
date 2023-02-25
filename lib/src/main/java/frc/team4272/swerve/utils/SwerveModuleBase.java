@@ -51,20 +51,20 @@ public abstract class SwerveModuleBase {
         return new SwerveModuleState(desiredState.speedMetersPerSecond * inverted, Rotation2d.fromDegrees(desiredDegrees));
     }
 
-    public static class PositionedSwerveModule {
-        private SwerveModuleBase module;
+    public static class PositionedSwerveModule<M extends SwerveModuleBase> {
+        private M module;
         private Translation2d position;
 
-        public PositionedSwerveModule(SwerveModuleBase module, Translation2d position) {
+        public PositionedSwerveModule(M module, Translation2d position) {
             this.module = module;
             this.position = position;
         }
 
-        public PositionedSwerveModule(SwerveModuleBase module, double x, double y) {
+        public PositionedSwerveModule(M module, double x, double y) {
             this(module, new Translation2d(x, y));
         }
 
-        public SwerveModuleBase getModule() {
+        public M getModule() {
             return module;
         }
 
