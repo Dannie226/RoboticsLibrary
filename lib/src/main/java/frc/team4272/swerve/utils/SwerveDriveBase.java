@@ -1,5 +1,8 @@
 package frc.team4272.swerve.utils;
 
+import java.lang.reflect.Array;
+import java.util.List;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -13,6 +16,7 @@ public class SwerveDriveBase<G extends Gyroscope, M extends SwerveModuleBase> ex
     protected final G gyroscope;
     protected final SwerveDriveKinematics kinematics;
     protected final M[] modules;
+    protected final int numModules;
 
     private double maxTranslational;
     private double maxRotational;
@@ -23,14 +27,15 @@ public class SwerveDriveBase<G extends Gyroscope, M extends SwerveModuleBase> ex
      * @param gyroscope Gyroscope for field relative driving
      * @param modules All the modules on your robot and their positions for kinematics
      */
-    public SwerveDriveBase(G gyroscope, PositionedSwerveModule<M>... modules) {
+    public SwerveDriveBase(G gyroscope, Class<M> moduleClass, List<PositionedSwerveModule<M>> modules) {
         this.gyroscope = gyroscope;
+        this.numModules = modules.size();
 
-        Translation2d[] positions = new Translation2d[modules.length];
-        M[] swerveModules = (M[]) new SwerveModuleBase[modules.length];
+        Translation2d[] positions = new Translation2d[numModules];
+        M[] swerveModules = (M[]) Array.newInstance(moduleClass, numModules);
 
-        for(int i = 0; i < modules.length; i++) {
-            PositionedSwerveModule<M> module = modules[i];
+        for(int i = 0; i < numModules; i++) {
+            PositionedSwerveModule<M> module = modules.get(i);
             positions[i] = module.getPosition();
             swerveModules[i] = module.getModule();
         }
@@ -100,7 +105,7 @@ public class SwerveDriveBase<G extends Gyroscope, M extends SwerveModuleBase> ex
      * @param states
      */
     public void setStates(SwerveModuleState... states) {
-        if(states.length != modules.length) throw new IllegalArgumentException("Number of states provided doesnt match number of modules");
+        if(states.length != numModules) throw new IllegalArgumentException("Number of states provided doesnt match number of modules");
 
         for(int i = 0; i < states.length; i++) {
             modules[i].goToState(states[i]);
@@ -113,9 +118,9 @@ public class SwerveDriveBase<G extends Gyroscope, M extends SwerveModuleBase> ex
      * @return
      */
     public SwerveModulePosition[] getPositions() {
-        SwerveModulePosition[] positions = new SwerveModulePosition[modules.length];
+        SwerveModulePosition[] positions = new SwerveModulePosition[numModules];
 
-        for(int i = 0; i < modules.length; i++) {
+        for(int i = 0; i < numModules; i++) {
             positions[i] = modules[i].getPosition();
         }
 
