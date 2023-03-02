@@ -74,15 +74,25 @@ public class SwerveModule extends SwerveModuleBase {
   }
 }
 ```
-3. Finally, you create your swerve drive. This takes in multiple parameters. The first parameter is a gyroscope. If you are never planning on using field relative driving, pass in null. The rest of the parameters are the swerve modules with a position attached to them. The library has a built in class, just call the constructor with your swerve module and its position relative to the center of the robot.
-
+3. Finally, we need to make our swerve drive.<br>
+SwerveDriveBase is a generic with a gyroscope, and a swerve module type.<br>
+You use whatever gyroscope and swerve module you created previously, and pass those in as generics.<br>
+The first parameter is an instance of the gyroscope you are using.<br>
+The second parameter is the class of the swerve module you created.<br>
+The third parameter is a List of positioned swerve modules<br>
+   - Note: If you aren't using a gyroscope, then use
+the gyroscope interface as the generic parameter, and pass in null<br>
 ```java
-public class SwerveDrive extends SwerveDriveBase {
+// With a gyroscope
+public class SwerveDrive extends SwerveDriveBase<Pigeon, SwerveModule> {
   public SwerveDrive() {
     super(
-      null, // Gyroscope
-      new PositionedSwerveModule(new SwerveModule(), xPosition, yPosition),
-      new PositionedSwerveModule(new SwerveModule(), new Translation2d(xPosition, yPosition))
+      new Pigeon(),
+      SwerveModule.class,
+      List.of(
+        new PositionedSwerveModule<SwerveModule>(new SwerveModule(), xPosition, yPosition),
+        new PositionedSwerveModule<SwerveModule>(new SwerveModule(), new Translation2d(xPosition, yPosition))
+      )
     )
 
     // This constructor is only meant to be as an example
@@ -107,7 +117,7 @@ public class SwerveDrive extends SwerveDriveBase {
 }
 ```
 
-4. With that, you should have a functioning swerve drive, immenent debugging not withstanding
+4. With that, you should have a functioning swerve drive, imminent debugging not withstanding
 
 ### Controllers
 
