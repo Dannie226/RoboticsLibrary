@@ -23,7 +23,7 @@ public class Controller extends GenericHID {
         if(!axesMap.containsKey(name)){
             axesMap.put(name, new JoystickAxes(this, xPort, yPort));
         } else {
-            throw new IllegalArgumentException("The name " + name + " is already taken by another axes object");
+            throw new IllegalArgumentException("The name %s is already taken by another axes object".formatted(name));
         }
     }
 
@@ -31,7 +31,7 @@ public class Controller extends GenericHID {
         if(axesMap.containsKey(name)) {
             return axesMap.get(name);
         } else {
-            throw new IllegalArgumentException("No axes assigned to that name");
+            throw new IllegalArgumentException("No axes assigned to the name %s".formatted(name));
         }
     }
 
@@ -39,7 +39,7 @@ public class Controller extends GenericHID {
         if(!triggerMap.containsKey(name)){
             triggerMap.put(name, new JoystickTrigger(this, port));
         } else {
-            throw new IllegalArgumentException("The name " + name + " is already taken by another trigger object");
+            throw new IllegalArgumentException("The name %s is already taken by another trigger object".formatted(name));
         }
     }
 
@@ -47,7 +47,7 @@ public class Controller extends GenericHID {
         if(triggerMap.containsKey(name)) {
             return triggerMap.get(name);
         } else {
-            throw new IllegalArgumentException("No trigger assigned to that name");
+            throw new IllegalArgumentException("No trigger assigned to the name %s".formatted(name));
         }
     }
 
@@ -55,7 +55,7 @@ public class Controller extends GenericHID {
         if(!buttonMap.containsKey(name)){
             buttonMap.put(name, new JoystickButton(this, port));
         } else {
-            throw new IllegalArgumentException("The name " + name + " is already taken by another button object");
+            throw new IllegalArgumentException("The name %s is already taken by another button object".formatted(name));
         }
     }
 
@@ -63,7 +63,7 @@ public class Controller extends GenericHID {
         if(buttonMap.containsKey(name)) {
             return buttonMap.get(name);
         } else {
-            throw new IllegalArgumentException("No button assigned to that name");
+            throw new IllegalArgumentException("No button assigned to the name %s".formatted(name));
         }
     }
 
@@ -71,7 +71,7 @@ public class Controller extends GenericHID {
         if(!povMap.containsKey(name)){
             povMap.put(name, new JoystickPOV(this, port));
         } else {
-            throw new IllegalArgumentException("The name " + name + " is already taken by another POV object");
+            throw new IllegalArgumentException("The name %s is already taken by another POV object".formatted(name));
         }
     }
 
@@ -79,7 +79,7 @@ public class Controller extends GenericHID {
         if(povMap.containsKey(name)) {
             return povMap.get(name);
         } else {
-            throw new IllegalArgumentException("No POV assigned to that name");
+            throw new IllegalArgumentException("No POV assigned to the name %s".formatted(name));
         }
     }
 }
