@@ -32,6 +32,8 @@ public class SwerveDriveBase<G extends Gyroscope, M extends SwerveModuleBase> ex
         this.numModules = modules.size();
 
         Translation2d[] positions = new Translation2d[numModules];
+
+        @SuppressWarnings({"unchecked"}) // Suppress unchecked warning because there is type checking elsewhere
         M[] swerveModules = (M[]) Array.newInstance(moduleClass, numModules);
 
         for(int i = 0; i < numModules; i++) {
