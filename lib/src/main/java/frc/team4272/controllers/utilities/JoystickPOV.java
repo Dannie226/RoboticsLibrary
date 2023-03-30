@@ -14,7 +14,8 @@ public class JoystickPOV {
         DOWN(180),
         DOWN_LEFT(225),
         LEFT(270),
-        UP_LEFT(315);
+        UP_LEFT(315),
+        NONE(-1);
 
         private int value;
         private Direction(int value) {
@@ -50,6 +51,9 @@ public class JoystickPOV {
 
                 case 315:
                     return UP_LEFT;
+
+                case -1:
+                    return NONE;
 
                 default:
                     throw new IllegalArgumentException("%d is not a valid POV Direction".formatted(value));
