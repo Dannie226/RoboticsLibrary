@@ -70,6 +70,10 @@ public class JoystickPOV {
         return controller.getPOV(port);
     }
 
+    public boolean isTriggered() {
+        return getValue() != -1;
+    }
+
     public Direction getDirection() {
         return Direction.getFromValue(getValue());
     }

@@ -36,4 +36,8 @@ public class JoystickTrigger {
     public double getValue() {
         return deadbandAndPowerScale(getRawValue(), deadzone, power);
     }
+
+    public boolean isTriggered() {
+        return getValue() != 0;
+    }
 }
