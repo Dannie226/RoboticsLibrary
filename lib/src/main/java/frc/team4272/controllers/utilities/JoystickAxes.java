@@ -89,4 +89,20 @@ public class JoystickAxes {
     public double getDeadzonedMagnitude() {
         return deadbandAndPowerScale(getRawMagnitude(), deadzone, power);
     }
+
+    public boolean isTriggered() {
+        switch(mode) {
+            case kMagnitude:
+                return getDeadzonedMagnitude() != 0;
+            
+            case kXAxis:
+                return getDeadzonedX() != 0;
+            
+            case kYAxis:
+                return getDeadzonedY() != 0;
+
+            default:
+                return false;
+        }
+    }
 }
